@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from tkinter import *
+from Tkinter import *
 import random
 from turtle import *
 import time
@@ -163,6 +163,7 @@ class Timer(Frame):
 
         self.nameEntry = Entry(root, textvariable=self.name, background='black', foreground='white', font=('Evogria', 10), justify=CENTER)
         self.nameEntry.pack(side='top', expand=False, pady=10)
+        self.nameEntry.focus()
 
 
     def save(self, event):
