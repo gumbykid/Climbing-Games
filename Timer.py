@@ -1,12 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from tkinter import *
+from Tkinter import *
 import random
 from turtle import *
 import time
+from datetime import timedelta
 import pygame
 #  import os
+current_milli_time = lambda: int(round(time.time() * 1000))
 
 class Timer(Frame):
     def __init__(self, master=None):
@@ -48,6 +50,7 @@ class Timer(Frame):
 
         # Time structure [min, sec, centsec]
         self.timer = [0, 0, 0]
+        self.starttime = 0
 
         # Minutes are not used, but available for longer games
         self.pattern = '{1:02d}:{2:02d}'
@@ -100,8 +103,8 @@ class Timer(Frame):
             pass
 
         # Remake all the widgets)
-        self.timer = [0, 0, 0]
-        self.pattern = '{1:02d}:{2:02d}'
+        self.starttime = current_milli_time()
+        self.pattern = '{:02d}:{:02d}'
         self.timeText = Label(root, text='00:00', font=('Evogria', 60), foreground='white', background='black')
         self.timeText.pack(side='top', expand=False)
         self.highscore = Label(root, textvariable=self.highscore_var, font=('Evogria', 20), foreground='yellow', background='black')
@@ -113,22 +116,11 @@ class Timer(Frame):
 
         if self.state:
 
-            # Every time this function is called, increment 1 centisecond (1/100 of a second)
-            self.timer[2] += 1
-
-            # Every 100 centisecond is equal to 1 second
-            if self.timer[2] >= 100:
-                self.timer[2] = 0
-                self.timer[1] += 1
-
-            # Every 60 seconds is equal to 1 min
-            # Due to the short nature of the game, currently the timer resets once it hits 1 minute
-            if self.timer[1] >= 60:
-                self.timer[0] += 1
-                self.timer[1] = 0
-
+        	#calculate milliseconds since start
+            #t = timedelta(milliseconds=current_milli_time()-self.starttime)
+            t = current_milli_time()-self.starttime
             # Grab time
-            self.timeString = self.pattern.format(self.timer[0], self.timer[1], self.timer[2])
+            self.timeString = self.pattern.format(t/1000, (t/10)%100)
 
             # Display current time
             self.timeText.configure(text=self.timeString)
@@ -163,6 +155,7 @@ class Timer(Frame):
 
         self.nameEntry = Entry(root, textvariable=self.name, background='black', foreground='white', font=('Evogria', 10), justify=CENTER)
         self.nameEntry.pack(side='top', expand=False, pady=10)
+        self.nameEntry.focus()
 
 
     def save(self, event):
