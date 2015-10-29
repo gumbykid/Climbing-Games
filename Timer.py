@@ -1,13 +1,8 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-from Tkinter import *
+from tkinter import *
 import random
 from turtle import *
 import time
-from datetime import timedelta
 import pygame
-#  import os
 current_milli_time = lambda: int(round(time.time() * 1000))
 
 class Timer(Frame):
@@ -38,7 +33,6 @@ class Timer(Frame):
 
         # Different pre-made dot arrangements, each time app is opened one will be chosen randomly
         # Images are in same directory as code (GIF ONLY)
-      #  directory = os.getcwd()
         self.image_list = ['dots.gif', '4_up_left.gif', '5_up_left.gif', '6_up_left.gif']
 
         # Set background image
@@ -102,7 +96,7 @@ class Timer(Frame):
         except AttributeError:
             pass
 
-        # Remake all the widgets)
+        # Remake all the widgets
         self.starttime = current_milli_time()
         self.pattern = '{:02d}:{:02d}'
         self.timeText = Label(root, text='00:00', font=('Evogria', 60), foreground='white', background='black')
@@ -116,11 +110,11 @@ class Timer(Frame):
 
         if self.state:
 
-        	#calculate milliseconds since start
-            #t = timedelta(milliseconds=current_milli_time()-self.starttime)
-            t = current_milli_time()-self.starttime
+            #calculate milliseconds since start
+            t = int(current_milli_time()-self.starttime)
+
             # Grab time
-            self.timeString = self.pattern.format(t/1000, (t/10)%100)
+            self.timeString = self.pattern.format(int(t/1000), int((t/10)%100))
 
             # Display current time
             self.timeText.configure(text=self.timeString)
@@ -459,5 +453,4 @@ root = Tk()
 root.wm_title('Hit the Dots!')
 app = Timer(master=root)
 app.mainloop()
-
 
